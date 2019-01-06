@@ -1,6 +1,5 @@
 LBRY\ 3D\ Viewer/Assets/Editor/LBRY/lbry-format/*.meta
-LBRY\ 3D\ Viewer/Assets/Editor/LBRY/lbry-format/package-lock.json
-LBRY\ 3D\ Viewer/Assets/Editor/LBRY/lbry-format/node_modules
+#LBRY\ 3D\ Viewer/Assets/Editor/LBRY/lbry-format~/
 
 LBRY\ 3D\ Viewer/LBRY/
 LBRY\ 3D\ Viewer/Logs/

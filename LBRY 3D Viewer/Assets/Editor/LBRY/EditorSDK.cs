@@ -66,10 +66,19 @@ public class LBRY
       var packageScript = "\"" + Path.Combine(Path.GetDirectoryName(unityEditorLbryPath), "package.js") + "\"";
       UnityEngine.Debug.Log("packageScript: " + packageScript);
 
+      var lbryFormatDir = Path.Combine(Path.GetDirectoryName(unityEditorLbryPath), "lbry-format~/");
+
+      // Copy `lbry-format` to `lbry-format~` (Unity special folder)
+      if(!Directory.Exists(lbryFormatDir)) {
+        var srcLbryFormatDir = Path.Combine(Path.GetDirectoryName(unityEditorLbryPath), "lbry-format/");
+        UnityEngine.Debug.LogWarning("Creating `lbry-format~` (Unity ignored)");
+        FileUtil.CopyFileOrDirectory(srcLbryFormatDir, lbryFormatDir);
+      }
+
+      // Install `lbry-format` dependencies
       var lbryFormatModulesDir = Path.Combine(Path.GetDirectoryName(unityEditorLbryPath), "lbry-format~/node_modules/");
       if(!Directory.Exists(lbryFormatModulesDir)) {
         UnityEngine.Debug.LogWarning("'lbry-format' modules missing, running `npm i`");
-        var lbryFormatDir = Path.Combine(Path.GetDirectoryName(unityEditorLbryPath), "lbry-format~/");
         UnityEngine.Debug.Log(Path.GetDirectoryName(lbryFormatDir));
         ExecProcessShell(Path.GetDirectoryName(lbryFormatDir), "npm", "i");
       }
