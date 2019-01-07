@@ -28,6 +28,7 @@ public class LBRY
         PlayerSettings.WebGL.linkerTarget = WebGLLinkerTarget.Wasm;
         PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Brotli;
         PlayerSettings.WebGL.debugSymbols = false;
+		PlayerSettings.WebGL.dataCaching = false;
         PlayerSettings.stripEngineCode = false;
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
