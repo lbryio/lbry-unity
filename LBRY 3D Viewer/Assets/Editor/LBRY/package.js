@@ -4,6 +4,6 @@ const lbryFormat = require('./lbry-format~');
 
 console.log(lbryFormat);
 
-lbryFormat.packDirectory('./', {
+lbryFormat.packDirectory('./Build/', {
   fileName: 'package.lbry',
 });
