@@ -44,7 +44,7 @@ sysinfo.txt
 
 # Builds
 *.apk
-*.unitypackage
+*/*.unitypackage
 
 # Crashlytics generated file
 LBRY\ 3D\ Viewer/Assets/StreamingAssets/crashlytics-build.properties

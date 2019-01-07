@@ -1,6 +1,8 @@
 using System;
-using System.IO;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
@@ -29,7 +31,15 @@ public class LBRY
         PlayerSettings.stripEngineCode = false;
 
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-        buildPlayerOptions.scenes = new[] { "Assets/Editor/LBRY.unity" };
+
+        List<string> scenes = new List<string>();
+        foreach(EditorBuildSettingsScene scene in EditorBuildSettings.scenes) {
+          if(scene.enabled) {
+            scenes.Add(scene.path);
+          }
+        }
+
+        buildPlayerOptions.scenes = scenes.ToArray();
         buildPlayerOptions.locationPathName = "LBRY/Build";
         buildPlayerOptions.target = BuildTarget.WebGL;
         buildPlayerOptions.options = BuildOptions.UncompressedAssetBundle;
