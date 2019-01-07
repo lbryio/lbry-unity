@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class LBRY
 {
-    [MenuItem("LBRY/Build WebGL AssetBundles")]
+    [MenuItem("LBRY/Build AssetBundles")]
     static void BuildAllAssetBundles()
     {
         string assetBundleDirectory = "LBRY/AssetBundles";
@@ -19,7 +19,7 @@ public class LBRY
         BuildPipeline.BuildAssetBundles(assetBundleDirectory, BuildAssetBundleOptions.ForceRebuildAssetBundle, BuildTarget.WebGL);
     }
 
-    [MenuItem("LBRY/Build WebGL Viewer")]
+    [MenuItem("LBRY/Build Project")]
     public static void BuildWebGL()
     {
         // Switch to WebGL build.
@@ -54,7 +54,7 @@ public class LBRY
         }
     }
 
-    [MenuItem("LBRY/Package Application")]
+    [MenuItem("LBRY/Package Build for LBRY")]
     public static void PackageLBRY()
     {
       /*
