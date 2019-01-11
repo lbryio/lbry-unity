@@ -87,7 +87,6 @@ async function packDirectory(directory, options = {}) {
   writeFirstEntry(options, tarPack);
 
   await walkAndRun(async (file) => {
-    try{
     contents = await readFile(path.normalize(file));
 
     // Must be chunked to avoid issues with fixed memory limits.
@@ -113,7 +112,7 @@ async function packDirectory(directory, options = {}) {
 
     contents = zstd.compressChunks(chunkIterator, contents.length, COMPRESSION_LEVEL);
 
-    let name = path.relative(packRoot, file);
+    let name = path.relative(packRoot, file).replace('\\', '/');
 
     if(/^\.\//.test(name)) {
       name = name.slice(2);
@@ -126,9 +125,8 @@ async function packDirectory(directory, options = {}) {
     });
 
     await writeStream(entry, contents);
-    //console.log(contents)
+
     entry.end();
-  }catch (e){console.log(e)}
   }, directory, packRoot);
   tarPack.finalize();
 };
@@ -154,42 +152,46 @@ function streamToBuffer(stream) {
 
 
 async function unpackDirectory(directory, options = {}) {
-  if(!fs.existsSync(directory)) {
-    fs.mkdirSync(directory);
-  }
-
-  const fileReadStream = getFileReadStream(options);
-  const zstd = await getZstd();
-
-  const extract = tar.extract();
-
-  extract.on('entry', async (header, fileStream, next) => {
-    let contents = await streamToBuffer(fileStream);
-    contents = new Uint8Array(contents);
-
-    contents = zstd.decompress(contents);
-
-    if(!/^\./.test(header.name)) {
-      if(header.name == 'index.html') {
-        console.log(String.fromCharCode.apply(null, contents))
-      }
-      const writePath = path.join(directory, header.name);
-      fs.promises.mkdir(path.dirname(writePath), { recursive: true });
-      var fileWriteStream = fs.createWriteStream(writePath);
-      fileWriteStream.write(contents);
-      fileWriteStream.end();
-      next();
-    } else {
-      fileStream.resume();
-      next();
+  return new Promise(async (resolve) => {
+    if(!fs.existsSync(directory)) {
+      fs.mkdirSync(directory);
     }
-  });
 
-  extract.on('finish', () => {
-    // all entries read
-  });
+    const fileReadStream = getFileReadStream(options);
+    const zstd = await getZstd();
 
-  fileReadStream.pipe(extract);
+    const extract = tar.extract();
+
+    extract.on('entry', async (header, fileStream, next) => {
+      let contents = await streamToBuffer(fileStream);
+      contents = new Uint8Array(contents);
+
+      contents = zstd.decompress(contents);
+
+      if(!/^\./.test(header.name)) {
+        const writePath = path.join(directory, header.name);
+
+        try {
+          fs.mkdirSync(path.dirname(writePath), { recursive: true });
+        } catch (e) {
+          // Directory exists
+        }
+        const fileWriteStream = fs.createWriteStream(writePath);
+        fileWriteStream.write(contents);
+        fileWriteStream.end();
+        next();
+      } else {
+        fileStream.resume();
+        next();
+      }
+    });
+
+    extract.on('finish', () => {
+      resolve(true);
+    });
+
+    fileReadStream.pipe(extract);
+  });
 }
 
 /*
