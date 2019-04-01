@@ -9,11 +9,15 @@ See also https://github.com/lbryio/lbry-format
 ## Requirements
 
 Dependencies: `NodeJS`  
-Verified in `Unity 2018.3`. Does not work with `Unity 2017` or `Unity 2019` (in Beta as of writing)
+Verified in `Unity 2018.3` and `Unity 2019.1.0b8`.  
+  
+Does not work with `Unity 2017` and some prior alpha releases of `Unity 2019`.
 
 ## Usage
 
 In your Unity project, import `lbry.unitypackage`.
+
+`Assets` > `Import Package` > `Custom Package` > `lbry.unitypackage`
 
 ## Limitations
 
