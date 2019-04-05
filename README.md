@@ -19,6 +19,8 @@ In your Unity project, import `lbry.unitypackage`.
 
 `Assets` > `Import Package` > `Custom Package` > `lbry.unitypackage`
 
+Package exports will be saved to `./Build/package.lbry`, these can be uploaded directly to LBRY.
+
 ## Limitations
 
 Unity WebGL targets do not support threads (use co-routines instead) or some binary add-ons (must use addons that provide sources or WebASM targets)
