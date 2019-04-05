@@ -8,8 +8,8 @@ See also https://github.com/lbryio/lbry-format
 
 ## Requirements
 
-Dependencies: [NodeJS](https://nodejs.org/en/download/)
-Verified in `Unity 2018.3` and `Unity 2019.1.0b8`, `Unity Hub` is recommended.
+Dependencies: [NodeJS](https://nodejs.org/en/download/)  
+Verified in `Unity 2018.3` and `Unity 2019.1.0b8`, `Unity Hub` is recommended.  
   
 Does not work with `Unity 2017` and some prior alpha releases of `Unity 2019`.
 
